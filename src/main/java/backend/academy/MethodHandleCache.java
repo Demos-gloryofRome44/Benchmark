@@ -12,8 +12,17 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MethodHandleCache {
     private static final Map<Class<?>, MethodHandle> cachedMethodHandles = new ConcurrentHashMap<>();
 
-    static MethodHandle getCachedMethodHandle(Class<?> clazz, String methodName) throws Throwable {
-        return cachedMethodHandles.computeIfAbsent(clazz, c -> {
+    /**
+     * Возвращает кэшированный {@link MethodHandle} для указанного метода класса.
+     * Если {@link MethodHandle} ещё не кэширован, он создаётся, кэшируется и возвращается.
+     *
+     * @param clas      Класс, содержащий метод.
+     * @param methodName Имя метода.
+     * @return Кэшированный {@link MethodHandle}.
+     * @throws Throwable Если возникает ошибка при получении или кэшировании {@link MethodHandle}.
+     */
+    static MethodHandle getCachedMethodHandle(Class<?> clas, String methodName) throws Throwable {
+        return cachedMethodHandles.computeIfAbsent(clas, c -> {
             try {
                 MethodHandles.Lookup lookup = MethodHandles.lookup();
                 Method method = c.getMethod(methodName);

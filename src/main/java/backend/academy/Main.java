@@ -19,6 +19,10 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
 
+/**
+ * Тест JMH для сравнения производительности различных методов вызова методов:
+ * direct access, reflection, MethodHandles, и lambda metafactory.
+ */
 @Log4j2
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
@@ -33,9 +37,16 @@ public class Main {
     private Object student;
     private Method method;
     private MethodHandle methodHandle;
+
+    //Лямбда-выражение, которое возвращает строку, представляющую имя студента
     private java.util.function.Supplier<String> lambdaGetter;
 
-
+    /**
+     * Метод настройки для теста. Инициализирует объект student,
+     * извлекает метод с помощью отражения, получает MethodHandle
+     * и создает лямбда-выражение для тестирования.
+     * @выдает Throwable, если во время настройки возникает какое-либо исключение.
+     */
     @Setup
     public void setup() throws Throwable {
         student = new Student("Egor", "Dimitriev");
