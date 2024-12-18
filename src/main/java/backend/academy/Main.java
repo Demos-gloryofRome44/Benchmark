@@ -3,6 +3,7 @@ package backend.academy;
 import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -24,8 +25,8 @@ import org.openjdk.jmh.infra.Blackhole;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Thread)
-@Warmup(iterations = 1, time = 20, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 1, time = 20, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 1, time = 10, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 1, time = 10, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 public class Main {
 
@@ -64,22 +65,16 @@ public class Main {
         bh.consume(((Student) student).name());
     }
 
+    @SneakyThrows
     @Benchmark
     public void reflection(Blackhole bh) {
-        try {
-            bh.consume((String) method.invoke(student));
-        } catch (Exception e) {
-            log.error("Exception in reflection benchmark: {}", e.getMessage(), e);
-        }
+        bh.consume((String) method.invoke(student));
     }
 
+    @SneakyThrows
     @Benchmark
     public void methodHandles(Blackhole bh) {
-        try {
-            bh.consume((String) methodHandle.invoke(student));
-        } catch (Throwable throwable) {
-            log.error("Exception in methodHandles benchmark: {}", throwable.getMessage(), throwable);
-        }
+        bh.consume((String) methodHandle.invoke(student));
     }
 
     @Benchmark
