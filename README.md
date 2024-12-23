@@ -1,10 +1,18 @@
-# Шаблон Java-проекта для домашних заданий
+## Benchmark test
+Проект предназначен для реализации и сравнения производительности четырех различных способов обращения к методу Student#name() (или любому другому классу/интерфейсу) в Java.
+- Прямой доступ
+- java.lang.reflect.Method
+- java.lang.invoke.MethodHandles
+- java.lang.invoke.LambdaMetafactory
 
-Шаблон для домашних заданий [Академии Бэкенда 2024][course-url].
+| Benchmark               | Mode | Score   | Units   |
+|------------------------|------|---------|---------|
+| Main.directAccess      | avgt | 1.094   | ns/op   |
+| Main.lambdaMetafactory | avgt | 6.892   | ns/op   |
+| Main.methodHandles     | avgt | 5.396   | ns/op   |
+| Main.reflection        | avgt | 9.654   | ns/op   |
 
-Цель данного репозитория – познакомить вас с процессом разработки приложений на
-Java с использованием наиболее распространенных практик, инструментов и
-библиотек.
+
 
 ## Структура проекта
 
